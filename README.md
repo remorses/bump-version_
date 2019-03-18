@@ -8,9 +8,8 @@ jobs:
         docker:
             - image: xmorse/bump-version
         environment:
-            GITHUB_TOKEN: xxx
             REPOSITORY: username/repository
         steps:
             - checkout
-            - run: /bump
+            - run: GITHUB_TOKEN=$GITHUB_TOKEN /bump
 ```
