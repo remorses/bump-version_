@@ -1,0 +1,31 @@
+#!/bin/sh
+
+test -f ./VERSION || (echo "file VERSION containing current version is needed" && exit 1)
+
+git checkout master
+git pull master origin
+
+# bump version
+python -c '\
+version = open("VERSION", "r").read().strip()
+new = version.split(".")[-1]
+new = int(new) + 1
+new = ".".join(version.split(".")[:-1]) + "." + str(new)
+open("VERSION", "w").write(new)
+'
+
+# ssh-add -D
+# ssh-keyscan github.com >> githubKey
+# ssh-keygen -lf githubKey
+# cat githubKey >> ~/.ssh/known_hosts
+
+
+version=`cat VERSION`
+
+git config  user.email "bump@version.com"
+git config  user.name "bump-version"
+
+git add VERSION
+git commit -m "version $version" -m "[skip ci]"
+git tag  "$version"
+git push  --tags  https://${GITHUB_TOKEN}@github.com${REPOSITORY}.git HEAD
