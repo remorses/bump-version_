@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 [ \( -z "$REPOSITORY" \) -a \( ! -z "$CIRCLE_PROJECT_REPONAME" \) ] && REPOSITORY="$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME"
 [ -f ./VERSION ] || (echo "file VERSION containing current version is needed" && exit 1)
 [ -z "$REPOSITORY" ] && (echo "env var REPOSITORY is needed when executing outside of circleci, (for exampe REPOSITORY=user/repo)" && exit 1) 
