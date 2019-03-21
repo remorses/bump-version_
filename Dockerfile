@@ -5,3 +5,5 @@ RUN apk  add --no-cache git
 COPY ./bump /bump
 
 RUN chmod +x /bump
+
+CMD /bump
